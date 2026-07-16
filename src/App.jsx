@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 import Sidebar from './components/Sidebar';
 import ToastManager from './components/ToastManager';
@@ -35,12 +35,9 @@ function AnimatedPage({ children }) {
 }
 
 function AppInner() {
-  const { pathname } = useLocation();
-  const isLanding = pathname === '/about';
-
   return (
     <div style={{ display: 'flex', height: '100vh', width: '100vw', overflow: 'hidden', background: '#050b14' }}>
-      {!isLanding && <Sidebar />}
+      <Sidebar />
       <main style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column', position: 'relative' }}>
         <AnimatedPage>
           <Routes>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
 const navItems = [
+  {
     to: '/',
     label: 'Live Monitor',
     icon: (

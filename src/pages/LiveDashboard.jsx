@@ -5,7 +5,7 @@ import LiveChart from '../components/LiveChart';
 import MqttStatusBar from '../components/MqttStatusBar';
 import GaugeChart from '../components/GaugeChart';
 import AlertLog from '../components/AlertLog';
-import { isAlert, getStatusBadge, formatDateTime } from '../utils/vitals';
+import { isAlert } from '../utils/vitals';
 import { ALERT_THRESHOLDS } from '../config';
 import { toast } from '../components/ToastManager';
 
@@ -58,7 +58,6 @@ export default function LiveDashboard() {
   } = useMqtt();
 
   const alertActive = isAlert(latestData);
-  const badge       = getStatusBadge(latestData?.status_alat);
   const spo2Alert   = latestData?.spo2 != null && latestData.spo2 < ALERT_THRESHOLDS.spo2Min;
   const suhuAlert   = latestData?.suhu != null && latestData.suhu > ALERT_THRESHOLDS.suhuMax;
   const errAlert    = latestData?.status_alat === 'ERROR';
