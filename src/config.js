@@ -1,23 +1,27 @@
-// Konfigurasi default MQTT & API
-// Tim B wajib menyesuaikan HOST & PORT sesuai server mereka
-
+// src/config.js (Sinkron dengan Settings.jsx Anda)
 export const MQTT_CONFIG = {
-  host: 'localhost',
-  port: 9001,          // WebSocket port Mosquitto
-  topic: 'healthcare/patient/vitals',
+  get host() {
+    return localStorage.getItem('mqtt_host') || 'localhost';
+  },
+  get port() {
+    return localStorage.getItem('mqtt_port') || 9001;
+  },
+  get topic() {
+    return localStorage.getItem('mqtt_topic') || 'healthcare/patient/vitals';
+  },
   clientIdPrefix: 'medical-dashboard',
 };
 
 export const API_CONFIG = {
-  baseURL: 'http://localhost:8000',   // URL FastAPI Tim B
-  historyEndpoint: '/api/v1/history', // + /{id_pasien}?limit=50
+  get baseURL() {
+    return localStorage.getItem('api_base') || 'http://localhost:8000';
+  },
+  historyEndpoint: '/api/v1/history',
 };
 
-// Threshold untuk Visual Alert
 export const ALERT_THRESHOLDS = {
-  spo2Min: 95,      // SpO2 < 95 → ALERT
-  suhuMax: 38.0,    // Suhu > 38.0 → ALERT
+  spo2Min: 95,
+  suhuMax: 38.0,
 };
 
-// Jumlah titik data yang ditampilkan di live chart
-export const CHART_WINDOW = 30;
+export const CHART_WINDOW = Number(localStorage.getItem('chart_window')) || 30;

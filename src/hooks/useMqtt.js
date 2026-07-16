@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { CHART_WINDOW } from '../config';
 
 // ── Demo data generator ────────────────────────────────────────
@@ -23,28 +23,15 @@ function generateDemoPayload(patientId, tick) {
   };
 }
 
-/**
- * useMqtt – manages MQTT + demo mode with multi-patient tracking.
- *
- * Returns:
- *  status, reconnect, demoMode, toggleDemo
- *  patients: Map<id_pasien, { latestData, history }>
- *  patientIds: string[]            – sorted list of all seen patients
- *  selectedId: string | null       – currently viewed patient
- *  setSelectedId: fn
- *  latestData: object | null       – shortcut to selectedId's latest
- *  history: object[]               – shortcut to selectedId's history
- */
 export function useMqtt() {
   const [status,      setStatus]      = useState('disconnected');
   const [demoMode,    setDemoMode]    = useState(false);
-  // Map: id_pasien → { latestData, history }
-  const [patients,    setPatients]    = useState({}); // plain object for React compat
+  const [patients,    setPatients]    = useState({});
   const [selectedId,  setSelectedId]  = useState(null);
 
   const clientRef    = useRef(null);
   const demoTimerRef = useRef(null);
-  const demoPingRef  = useRef(0); // alternates between patients
+  const demoPingRef  = useRef(0);
 
   // ── Push one reading into the patients map ────────────────────
   const pushData = useCallback((data) => {
@@ -68,23 +55,57 @@ export function useMqtt() {
       try { clientRef.current.end(true); } catch (_) {}
       clientRef.current = null;
     }
+    
     const host  = localStorage.getItem('mqtt_host')  || 'localhost';
     const port  = localStorage.getItem('mqtt_port')  || '9001';
     const topic = localStorage.getItem('mqtt_topic') || 'healthcare/patient/vitals';
-    const url   = `ws://${host}:${port}/mqtt`;
+    
+    // PERBAIKAN: Bersihkan prefix ws:// atau wss:// jika user mengetiknya di Halaman Pengaturan
+    const cleanHost = host.replace(/^wss?:\/\//, '');
+    const url   = `ws://${cleanHost}:${port}/mqtt`;
+    
     const cid   = `mediot-${Math.random().toString(16).slice(2, 8)}`;
     setStatus('connecting');
 
     const { default: mqtt } = await import('mqtt');
     const client = mqtt.connect(url, { clientId: cid, clean: true, reconnectPeriod: 5000, connectTimeout: 10000 });
-    client.on('connect',    () => { setStatus('connected'); client.subscribe(topic, { qos: 1 }); });
-    client.on('message',    (_t, payload) => { try { pushData(JSON.parse(payload.toString())); } catch (_) {} });
+    
+    client.on('connect', () => { 
+      setStatus('connected'); 
+      client.subscribe(topic, { qos: 1 });
+      console.log(`[MQTT SUKSES] Terhubung ke ${url} & subscribe topik: ${topic}`);
+    });
+    
+    client.on('message', (_t, payload) => { 
+      try { 
+        const parsed = JSON.parse(payload.toString());
+        pushData(parsed); 
+      } catch (e) {
+        console.error("[MQTT ERROR] Gagal parse JSON:", e);
+      } 
+    });
+    
     client.on('reconnect',  () => setStatus('connecting'));
     client.on('disconnect', () => setStatus('disconnected'));
-    client.on('error',      () => setStatus('error'));
+    client.on('error',      (err) => { setStatus('error'); console.error("[MQTT ERROR]:", err); });
     client.on('close',      () => setStatus('disconnected'));
     clientRef.current = client;
   }, [pushData]);
+
+  // ── PERBAIKAN KRITIS: Auto-Connect saat halaman dibuka ────────
+  useEffect(() => {
+    connect();
+    
+    // Cleanup: Putuskan koneksi saat pengguna menutup atau pindah halaman web
+    return () => {
+      if (clientRef.current) {
+        try { clientRef.current.end(true); } catch (_) {}
+      }
+      if (demoTimerRef.current) {
+        clearInterval(demoTimerRef.current);
+      }
+    };
+  }, [connect]);
 
   // ── Demo mode ─────────────────────────────────────────────────
   const startDemo = useCallback(() => {
@@ -97,9 +118,8 @@ export function useMqtt() {
 
     demoTimerRef.current = setInterval(() => {
       _demoTick++;
-      // Alternate between patients every tick (offset by half second via index)
       DEMO_PATIENTS.forEach((pid, i) => {
-        if (_demoTick % 1 === 0 || i === 0) { // P-001 every tick, P-002 every 2 ticks
+        if (_demoTick % 1 === 0 || i === 0) {
           if (i === 0 || _demoTick % 2 === 0) {
             pushData(generateDemoPayload(pid, _demoTick + i * 7));
           }
@@ -125,7 +145,6 @@ export function useMqtt() {
     connect();
   }, [demoMode, stopDemo, connect]);
 
-  // ── Derived shortcuts for selected patient ────────────────────
   const selected    = selectedId ? (patients[selectedId] || null) : null;
   const latestData  = selected?.latestData || null;
   const history     = selected?.history    || [];
