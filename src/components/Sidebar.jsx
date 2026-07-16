@@ -45,89 +45,54 @@ export default function Sidebar() {
   const dateStr = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short' });
 
   return (
-    <aside style={{
-      width: '230px',
-      minHeight: '100vh',
-      background: 'rgba(5,11,20,0.97)',
-      borderRight: '1px solid rgba(255,255,255,0.06)',
-      display: 'flex',
-      flexDirection: 'column',
-      flexShrink: 0,
-      backdropFilter: 'blur(24px)',
-      position: 'relative',
-      zIndex: 10,
-    }}>
+    <aside className="res-sidebar shrink-0 relative z-50 bg-[rgba(5,11,20,0.97)] backdrop-blur-xl">
       {/* Top gradient accent */}
-      <div style={{
-        position: 'absolute', top: 0, left: 0, right: 0, height: '200px',
-        background: 'linear-gradient(180deg, rgba(59,130,246,0.07) 0%, transparent 100%)',
-        pointerEvents: 'none',
-      }} />
+      <div className="res-hide-mobile absolute top-0 left-0 right-0 h-[200px] pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(59,130,246,0.07) 0%, transparent 100%)' }} />
 
-      {/* ── Logo ── */}
-      <div style={{ padding: '22px 18px 18px', position: 'relative' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-          <div style={{
-            width: 38, height: 38, borderRadius: '12px',
-            background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 4px 14px rgba(59,130,246,0.4)', flexShrink: 0,
-          }}>
+      {/* ── Logo (Desktop Only) ── */}
+      <div className="res-hide-mobile p-[22px_18px_18px] relative">
+        <div className="flex items-center gap-[10px] mb-4">
+          <div className="w-[38px] h-[38px] rounded-xl flex items-center justify-center shrink-0 shadow-[0_4px_14px_rgba(59,130,246,0.4)]" style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)' }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
             </svg>
           </div>
           <div>
-            <div style={{ fontWeight: 800, fontSize: '16px', letterSpacing: '-0.3px', lineHeight: 1.1, color: '#f1f5f9' }}>MedIoT</div>
-            <div style={{ fontSize: '9px', fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(148,163,184,0.5)', marginTop: '1px' }}>
+            <div className="font-extrabold text-[16px] tracking-[-0.3px] leading-[1.1] text-slate-100">MedIoT</div>
+            <div className="text-[9px] font-semibold tracking-[0.14em] uppercase text-slate-400/50 mt-[1px]">
               Monitor Pro
             </div>
           </div>
         </div>
 
         {/* Live Clock Widget */}
-        <div style={{
-          background: 'rgba(255,255,255,0.03)',
-          border: '1px solid rgba(255,255,255,0.06)',
-          borderRadius: '10px',
-          padding: '10px 12px',
-          display: 'flex', alignItems: 'center', gap: '10px',
-        }}>
-          <div className="dot-green anim-pulse-dot" style={{ flexShrink: 0 }} />
+        <div className="bg-white/5 border border-white/10 rounded-[10px] p-[10px_12px] flex items-center gap-[10px]">
+          <div className="dot-green anim-pulse-dot shrink-0" />
           <div>
-            <div style={{
-              fontSize: '19px', fontWeight: 700, color: '#f1f5f9', lineHeight: 1,
-              fontFamily: 'JetBrains Mono, monospace', letterSpacing: '-0.5px',
-            }}>
+            <div className="text-[19px] font-bold text-slate-100 leading-none tracking-[-0.5px] font-[JetBrains_Mono]">
               {timeStr}
             </div>
-            <div style={{ fontSize: '10px', color: 'rgba(148,163,184,0.5)', marginTop: '2px' }}>{dateStr}</div>
+            <div className="text-[10px] text-slate-400/50 mt-[2px]">{dateStr}</div>
           </div>
         </div>
       </div>
 
-      <div className="sep" style={{ margin: '0 18px' }} />
+      <div className="res-hide-mobile sep mx-[18px]" />
 
       {/* ── Navigation ── */}
-      <nav style={{ padding: '14px 12px', flex: 1, display: 'flex', flexDirection: 'column', gap: '2px' }}>
-        <div className="section-title" style={{ paddingLeft: '14px', marginBottom: '8px' }}>Navigasi</div>
+      <nav className="res-nav-container flex-1 flex gap-[2px] p-2 md:p-[14px_12px]">
+        <div className="res-hide-mobile section-title pl-[14px] mb-[8px]">Navigasi</div>
         {navItems.map(item => (
           <NavLink
             key={item.to}
             to={item.to}
             end={item.to === '/'}
-            className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+            className={({ isActive }) => `nav-link flex flex-col md:flex-row items-center justify-center md:justify-start !p-2 md:!p-[10px_14px] !gap-1 md:!gap-[10px] rounded-lg ${isActive ? 'active' : ''}`}
           >
-            <span style={{ flexShrink: 0, opacity: 0.8 }}>{item.icon}</span>
-            <span style={{ flex: 1 }}>{item.label}</span>
+            <span className="shrink-0 opacity-80 md:opacity-100 scale-125 md:scale-100">{item.icon}</span>
+            <span className="flex-1 text-[10px] md:text-[13px] text-center md:text-left leading-tight">{item.label}</span>
             {item.badge && (
-              <span style={{
-                fontSize: '8px', fontWeight: 800, letterSpacing: '0.1em',
-                padding: '2px 6px', borderRadius: '99px',
-                background: 'rgba(239,68,68,0.15)', color: '#f87171',
-                border: '1px solid rgba(239,68,68,0.25)',
-                animation: 'blink-text 2s ease infinite',
-              }}>
+              <span className="hidden md:inline-block text-[8px] font-extrabold tracking-[0.1em] px-[6px] py-[2px] rounded-full bg-red-500/15 text-red-400 border border-red-500/25 animate-[blink-text_2s_ease_infinite]">
                 {item.badge}
               </span>
             )}
@@ -135,17 +100,13 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      <div className="sep" style={{ margin: '0 18px' }} />
+      <div className="res-hide-mobile sep mx-[18px]" />
 
-      {/* ── Footer ── */}
-      <div style={{ padding: '16px 18px' }}>
-        <div style={{
-          background: 'rgba(59,130,246,0.06)',
-          border: '1px solid rgba(59,130,246,0.12)',
-          borderRadius: '10px', padding: '10px 12px',
-        }}>
-          <div style={{ fontSize: '11px', fontWeight: 600, color: '#60a5fa', marginBottom: '2px' }}>Tim A · Frontend</div>
-          <div style={{ fontSize: '10px', color: 'rgba(148,163,184,0.4)' }}>GEMASTIK 2026 · IoT Medis</div>
+      {/* ── Footer (Desktop Only) ── */}
+      <div className="res-hide-mobile p-[16px_18px]">
+        <div className="bg-blue-500/5 border border-blue-500/10 rounded-[10px] p-[10px_12px]">
+          <div className="text-[11px] font-semibold text-blue-400 mb-[2px]">Tim A · Frontend</div>
+          <div className="text-[10px] text-slate-400/40">GEMASTIK 2026 · IoT Medis</div>
         </div>
       </div>
     </aside>

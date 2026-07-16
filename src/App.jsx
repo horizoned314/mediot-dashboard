@@ -36,7 +36,7 @@ function AnimatedPage({ children }) {
 
 function AppInner() {
   return (
-    <div style={{ display: 'flex', height: '100vh', width: '100vw', overflow: 'hidden', background: '#050b14' }}>
+    <div className="res-app-container h-screen w-screen overflow-hidden bg-[var(--bg-base)]">
       <Sidebar />
       <main style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column', position: 'relative' }}>
         <AnimatedPage>

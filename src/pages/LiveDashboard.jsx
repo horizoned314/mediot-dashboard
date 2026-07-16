@@ -89,28 +89,23 @@ export default function LiveDashboard() {
   }, [demoMode]);
 
   return (
-    <div style={{
-      flex: 1, overflowY: 'auto', overflowX: 'hidden',
-      padding: '24px 28px 36px',
-      display: 'flex', flexDirection: 'column', gap: '16px',
-      position: 'relative',
-    }}>
+    <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-[24px_28px_36px] flex flex-col gap-4 relative">
       <div className="mesh-bg" />
 
       {/* ── Top Bar ─────────────────────────────────────────── */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', position: 'relative', zIndex: 1 }}>
         <div>
-          <h1 style={{ fontSize: '22px', fontWeight: 900, letterSpacing: '-0.5px', marginBottom: '4px', color: '#f1f5f9' }}>
+          <h1 className="text-[20px] md:text-[22px] font-black tracking-[-0.5px] mb-1 text-slate-100">
             Live Monitor
           </h1>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <code style={{ fontSize: '10px', color: 'rgba(6,182,212,0.8)', background: 'rgba(6,182,212,0.08)', border: '1px solid rgba(6,182,212,0.15)', borderRadius: '6px', padding: '2px 8px', fontFamily: 'JetBrains Mono, monospace' }}>
+          <div className="flex items-center gap-2 flex-wrap">
+            <code className="text-[9px] md:text-[10px] text-cyan-400/80 bg-cyan-400/10 border border-cyan-400/20 rounded-md px-2 py-0.5 font-[JetBrains_Mono]">
               healthcare/patient/vitals
             </code>
-            <span style={{ fontSize: '10px', color: 'rgba(148,163,184,0.3)' }}>· ws:9001</span>
+            <span className="text-[10px] text-slate-400/30">· ws:9001</span>
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+        <div className="flex items-center gap-2 flex-wrap">
           <button
             className="btn-ghost"
             onClick={toggleDemo}
@@ -228,14 +223,7 @@ export default function LiveDashboard() {
       {/* ── Gauge Row ─────────────────────────────────────────── */}
       <div style={{ position: 'relative', zIndex: 1 }}>
         <SectionLabel>Gauge Vital Signs — {selectedId ?? '–'}</SectionLabel>
-        <div className="glass-card" style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '0',
-          padding: '20px 8px 14px',
-          marginTop: '10px',
-          alignItems: 'center',
-        }}>
+        <div className="glass-card res-grid-3 gap-0 items-center mt-[10px] p-[20px_8px_14px]">
           {!latestData ? (
             <><GaugeSkeleton /><GaugeSkeleton /><GaugeSkeleton /></>
           ) : (
@@ -263,7 +251,7 @@ export default function LiveDashboard() {
       {/* ── Vital Cards ──────────────────────────────────────── */}
       <div style={{ position: 'relative', zIndex: 1 }}>
         <SectionLabel>Detail Tanda Vital</SectionLabel>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginTop: '10px' }}>
+        <div className="res-grid-3 gap-3 mt-[10px]">
           <VitalCard metricKey="bpm"  value={latestData?.bpm}  alert={errAlert}  animKey={latestData?.bpm} />
           <VitalCard metricKey="spo2" value={latestData?.spo2} alert={spo2Alert} animKey={latestData?.spo2} />
           <VitalCard metricKey="suhu" value={latestData?.suhu} alert={suhuAlert} animKey={latestData?.suhu} />
@@ -276,7 +264,7 @@ export default function LiveDashboard() {
           Grafik Real-time
           <span style={{ fontSize: '10px', color: 'rgba(148,163,184,0.3)', marginLeft: '6px' }}>({history.length} titik · klik ⏸ untuk freeze)</span>
         </SectionLabel>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginTop: '10px' }}>
+        <div className="res-grid-3 gap-3 mt-[10px]">
           {history.length === 0 ? (
             <><ChartSkeleton /><ChartSkeleton /><ChartSkeleton /></>
           ) : (

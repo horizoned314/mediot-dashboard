@@ -110,12 +110,7 @@ export default function HistoryDashboard() {
   const chartData = data.map((d, i) => ({ ...d, _i: i }));
 
   return (
-    <div style={{
-      flex: 1, overflowY: 'auto',
-      padding: '28px 28px 40px',
-      display: 'flex', flexDirection: 'column', gap: '18px',
-      position: 'relative',
-    }}>
+    <div className="flex-1 overflow-y-auto p-4 md:p-[28px_28px_40px] flex flex-col gap-[18px] relative">
       <div className="mesh-bg" />
 
       {/* ── Header ─────────────────────────────────────────── */}
@@ -203,7 +198,7 @@ export default function HistoryDashboard() {
           {/* Stats */}
           <div style={{ position: 'relative', zIndex: 1 }}>
             <SectionLabel>Statistik — {patientId}</SectionLabel>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginTop: '10px' }}>
+            <div className="res-grid-4 gap-3 mt-[10px]">
               <StatCard label="Total Data" value={data.length}   unit="record" color="#60a5fa" icon="📊" />
               <StatCard label="Avg BPM"    value={avg('bpm')}    unit="bpm"    color="#f87171" icon="❤️" />
               <StatCard label="Avg SpO₂"   value={avg('spo2')}   unit="%"      color="#60a5fa" icon="🫁" />
@@ -256,12 +251,13 @@ export default function HistoryDashboard() {
                   Tabel Riwayat
                 </SectionLabel>
 
-                <div className="glass-card" style={{ overflow: 'hidden', marginTop: '10px' }}>
-                  {/* Header */}
-                  <div style={{
-                    display: 'grid', gridTemplateColumns: '48px 1fr 90px 80px 90px 100px',
-                    padding: '10px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)', gap: '8px',
-                  }}>
+                <div className="glass-card mt-[10px] overflow-x-auto">
+                  <div className="min-w-[550px]">
+                    {/* Header */}
+                    <div style={{
+                      display: 'grid', gridTemplateColumns: '48px 1fr 90px 80px 90px 100px',
+                      padding: '10px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)', gap: '8px',
+                    }}>
                     {['#','Waktu','BPM','SpO₂','Suhu','Status'].map(h => (
                       <span key={h} style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(148,163,184,0.3)' }}>{h}</span>
                     ))}
@@ -295,7 +291,7 @@ export default function HistoryDashboard() {
                       );
                     })}
                   </div>
-
+                  
                   {/* Footer */}
                   <div style={{ padding: '10px 20px', borderTop: '1px solid rgba(255,255,255,0.04)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontSize: '11px', color: 'rgba(148,163,184,0.3)' }}>
@@ -309,6 +305,7 @@ export default function HistoryDashboard() {
                       <DownloadIcon /> Download CSV
                     </button>
                   </div>
+                </div>
                 </div>
               </div>
             </>

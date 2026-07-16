@@ -87,11 +87,7 @@ export default function Settings() {
   }
 
   return (
-    <div style={{
-      flex: 1, overflowY: 'auto',
-      padding: '28px 28px 40px',
-      position: 'relative',
-    }}>
+    <div className="flex-1 overflow-y-auto p-4 md:p-[28px_28px_40px] relative">
       <div className="mesh-bg" />
 
       <div style={{ maxWidth: '620px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
