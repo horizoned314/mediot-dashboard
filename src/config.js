@@ -1,32 +1,27 @@
-// Konfigurasi Dinamis MQTT & API (Terhubung otomatis ke Halaman Pengaturan)
-// Tim B wajib menyesuaikan HOST & PORT default sesuai server mereka
-
+// src/config.js (Sinkron dengan Settings.jsx Anda)
 export const MQTT_CONFIG = {
   get host() {
-    return localStorage.getItem('custom_mqtt_host') || 'localhost';
+    return localStorage.getItem('mqtt_host') || 'localhost';
   },
   get port() {
-    return localStorage.getItem('custom_mqtt_port') || 9001;
+    return localStorage.getItem('mqtt_port') || 9001;
   },
   get topic() {
-    return localStorage.getItem('custom_mqtt_topic') || 'healthcare/patient/vitals';
+    return localStorage.getItem('mqtt_topic') || 'healthcare/patient/vitals';
   },
   clientIdPrefix: 'medical-dashboard',
 };
 
 export const API_CONFIG = {
   get baseURL() {
-    // Otomatis membaca dari Halaman Pengaturan, fallback ke localhost jika kosong
-    return localStorage.getItem('custom_api_url') || 'http://localhost:8000';
+    return localStorage.getItem('api_base') || 'http://localhost:8000';
   },
-  historyEndpoint: '/api/v1/history', // Penggunaan: + /{id_pasien}?limit=50
+  historyEndpoint: '/api/v1/history',
 };
 
-// Threshold untuk Visual Alert
 export const ALERT_THRESHOLDS = {
-  spo2Min: 95,      // SpO2 < 95 → ALERT
-  suhuMax: 38.0,    // Suhu > 38.0 → ALERT
+  spo2Min: 95,
+  suhuMax: 38.0,
 };
 
-// Jumlah titik data yang ditampilkan di live chart
-export const CHART_WINDOW = 30;
+export const CHART_WINDOW = Number(localStorage.getItem('chart_window')) || 30;

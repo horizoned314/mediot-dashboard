@@ -71,14 +71,20 @@ export default function Settings() {
     setTimeout(() => setSaved(false), 3000);
   }
 
-  function reset() {
-    localStorage.clear();
-    setHost(   MQTT_CONFIG.host);
-    setPort(   String(MQTT_CONFIG.port));
-    setTopic(  MQTT_CONFIG.topic);
-    setApiBase(API_CONFIG.baseURL);
-    setWindow_(String(CHART_WINDOW));
-  }
+function reset() {
+  // Hapus hanya konfigurasi IoT, biarkan data browser lain tetap aman
+  localStorage.removeItem('mqtt_host');
+  localStorage.removeItem('mqtt_port');
+  localStorage.removeItem('mqtt_topic');
+  localStorage.removeItem('api_base');
+  localStorage.removeItem('chart_window');
+
+  setHost(MQTT_CONFIG.host);
+  setPort(String(MQTT_CONFIG.port));
+  setTopic(MQTT_CONFIG.topic);
+  setApiBase(API_CONFIG.baseURL);
+  setWindow_(String(CHART_WINDOW));
+}
 
   return (
     <div style={{
@@ -116,7 +122,6 @@ export default function Settings() {
                 hint="Hostname atau IP server Mosquitto"
                 value={host}
                 onChange={setHost}
-                prefix="ws://"
               />
               <Field
                 id="s-port"
