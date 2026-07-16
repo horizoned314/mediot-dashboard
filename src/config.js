@@ -1,16 +1,25 @@
-// Konfigurasi default MQTT & API
-// Tim B wajib menyesuaikan HOST & PORT sesuai server mereka
+// Konfigurasi Dinamis MQTT & API (Terhubung otomatis ke Halaman Pengaturan)
+// Tim B wajib menyesuaikan HOST & PORT default sesuai server mereka
 
 export const MQTT_CONFIG = {
-  host: 'localhost',
-  port: 9001,          // WebSocket port Mosquitto
-  topic: 'healthcare/patient/vitals',
+  get host() {
+    return localStorage.getItem('custom_mqtt_host') || 'localhost';
+  },
+  get port() {
+    return localStorage.getItem('custom_mqtt_port') || 9001;
+  },
+  get topic() {
+    return localStorage.getItem('custom_mqtt_topic') || 'healthcare/patient/vitals';
+  },
   clientIdPrefix: 'medical-dashboard',
 };
 
 export const API_CONFIG = {
-  baseURL: 'http://localhost:8000',   // URL FastAPI Tim B
-  historyEndpoint: '/api/v1/history', // + /{id_pasien}?limit=50
+  get baseURL() {
+    // Otomatis membaca dari Halaman Pengaturan, fallback ke localhost jika kosong
+    return localStorage.getItem('custom_api_url') || 'http://localhost:8000';
+  },
+  historyEndpoint: '/api/v1/history', // Penggunaan: + /{id_pasien}?limit=50
 };
 
 // Threshold untuk Visual Alert
