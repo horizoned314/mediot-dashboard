@@ -1,7 +1,7 @@
 // src/config.js (Sinkron dengan Settings.jsx Anda)
 export const MQTT_CONFIG = {
   get host() {
-    return localStorage.getItem('mqtt_host') || 'mqtt-iot-healthcare.playgrounds.web.id';
+    return localStorage.getItem('mqtt_host') || 'wss://electrocratic-debatable-joannie.ngrok-free.dev/mqtt';
   },
   get port() {
     return localStorage.getItem('mqtt_port') || 9001;
