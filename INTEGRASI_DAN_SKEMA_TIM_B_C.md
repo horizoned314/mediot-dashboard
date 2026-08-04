@@ -39,7 +39,7 @@ Update dari Tim Frontend (Tim A):
 1. Frontend siap menerima data streaming telemetri via MQTT WebSockets.
 2. Parameter Koneksi MQTT:
    - Topic default: healthcare/patient/vitals
-   - Host/Broker: mqtt-api-healthcare.playgrounds.web.id (Websocket port 443 / 80 atau 9001)
+   - Host/Broker: mqtt-iot-healthcare.playgrounds.web.id (Websocket port 443 / 80 atau 9001)
 3. Format JSON Payload (Publisher ESP32/Wokwi):
    {
      "id_pasien": "P-001",
@@ -161,6 +161,6 @@ erDiagram
 - **GET `/api/v1/history/{id_pasien}?limit=50`**: Untuk menarik riwayat tanda vital pasien.
 
 ### MQTT Broker (Tim C)
-- **Broker Host:** `mqtt-api-healthcare.playgrounds.web.id`
+- **Broker Host:** `mqtt-iot-healthcare.playgrounds.web.id`
 - **Topic:** `healthcare/patient/vitals`
 - **Catatan CORS:** Pastikan Tim B telah mengaktifkan Header `Access-Control-Allow-Origin: *` di FastAPI/Express agar tidak terkena kendala CORS di browser.

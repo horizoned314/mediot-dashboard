@@ -269,7 +269,7 @@ export default function Settings() {
             ℹ Catatan Integrasi Tim A, B & C
           </div>
           <ul style={{ fontSize: '12px', color: 'rgba(148,163,184,0.6)', lineHeight: 1.8, paddingLeft: '16px' }}>
-            <li>Broker MQTT (<code style={{ color: '#60a5fa', fontFamily: 'JetBrains Mono' }}>mqtt-api-healthcare.playgrounds.web.id</code>) harus mendukung protokol WebSocket (WS/WSS)</li>
+            <li>Broker MQTT (<code style={{ color: '#60a5fa', fontFamily: 'JetBrains Mono' }}>mqtt-iot-healthcare.playgrounds.web.id</code>) harus mendukung protokol WebSocket (WS/WSS)</li>
             <li>Server REST API Tim B harus berjalan dan mengaktifkan CORS untuk domain frontend ini</li>
             <li>Saat pengujian demo tanpa server offline, fitur <strong>Mode Demo (Bungkus Simulasi)</strong> dapat digunakan</li>
           </ul>
