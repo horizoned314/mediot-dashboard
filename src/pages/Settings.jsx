@@ -199,6 +199,20 @@ export default function Settings() {
           <button id="btn-reset-settings" className="btn-ghost" onClick={reset}>
             Reset Default
           </button>
+          <button
+            id="btn-logout-settings"
+            className="btn-ghost text-red-400 hover:text-red-300 !border-red-500/30 hover:!bg-red-500/10 ml-auto flex items-center gap-1.5"
+            onClick={() => {
+              localStorage.removeItem('mediot_user');
+              localStorage.removeItem('mediot_token');
+              window.location.href = '/login';
+            }}
+          >
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            <span>Keluar Sesi (Logout)</span>
+          </button>
         </div>
 
         {/* ── Success Toast ────────────────────── */}
@@ -226,13 +240,13 @@ export default function Settings() {
           border: '1px solid rgba(59,130,246,0.1)',
           borderRadius: '12px',
         }}>
-          <div style={{ fontSize: '11px', fontWeight: 700, color: '#60a5fa', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px' }}>
-            ℹ Catatan Integrasi
+          <div style={{ fontSize: '11px', fontWeight: 700, color: '#60a5fa', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px', fontFamily: 'JetBrains Mono, monospace' }}>
+            ℹ Catatan Integrasi Tim A, B & C
           </div>
-          <ul style={{ fontSize: '12px', color: 'rgba(148,163,184,0.5)', lineHeight: 1.7, paddingLeft: '16px' }}>
-            <li>Mosquitto harus aktif di port <code style={{ color: '#60a5fa', fontFamily: 'JetBrains Mono' }}>9001</code> (WebSocket)</li>
-            <li>FastAPI Tim B harus berjalan dan CORS diaktifkan</li>
-            <li>Gunakan MQTTX untuk test publish data dummy</li>
+          <ul style={{ fontSize: '12px', color: 'rgba(148,163,184,0.6)', lineHeight: 1.8, paddingLeft: '16px' }}>
+            <li>Broker MQTT (<code style={{ color: '#60a5fa', fontFamily: 'JetBrains Mono' }}>mqtt-api-healthcare.playgrounds.web.id</code>) harus mendukung protokol WebSocket (WS/WSS)</li>
+            <li>Server REST API Tim B harus berjalan dan mengaktifkan CORS untuk domain frontend ini</li>
+            <li>Saat pengujian demo tanpa server offline, fitur <strong>Mode Demo (Bungkus Simulasi)</strong> dapat digunakan</li>
           </ul>
         </div>
       </div>

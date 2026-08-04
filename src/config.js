@@ -1,7 +1,7 @@
 // src/config.js (Sinkron dengan Settings.jsx Anda)
 export const MQTT_CONFIG = {
   get host() {
-    return localStorage.getItem('mqtt_host') || 'localhost';
+    return localStorage.getItem('mqtt_host') || 'mqtt-api-healthcare.playgrounds.web.id';
   },
   get port() {
     return localStorage.getItem('mqtt_port') || 9001;
@@ -14,7 +14,7 @@ export const MQTT_CONFIG = {
 
 export const API_CONFIG = {
   get baseURL() {
-    return localStorage.getItem('api_base') || 'http://localhost:8000';
+    return localStorage.getItem('api_base') || 'https://api-iot-healthcare.playgrounds.web.id';
   },
   historyEndpoint: '/api/v1/history',
 };

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Navigate, Outlet } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 import Sidebar from './components/Sidebar';
 import ToastManager from './components/ToastManager';
@@ -7,6 +7,7 @@ import LiveDashboard from './pages/LiveDashboard';
 import HistoryDashboard from './pages/HistoryDashboard';
 import Settings from './pages/Settings';
 import NotFound from './pages/NotFound';
+import Login from './pages/Login';
 
 // ── Page transition wrapper ────────────────────────────────────
 function AnimatedPage({ children }) {
@@ -34,18 +35,19 @@ function AnimatedPage({ children }) {
   );
 }
 
-function AppInner() {
+// ── Protected Layout Wrapper ───────────────────────────────────
+function ProtectedLayout() {
+  const isLogged = Boolean(localStorage.getItem('mediot_user'));
+  if (!isLogged) {
+    return <Navigate to="/login" replace />;
+  }
+
   return (
     <div className="res-app-container h-screen w-screen overflow-hidden bg-[var(--bg-base)]">
       <Sidebar />
       <main style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column', position: 'relative' }}>
         <AnimatedPage>
-          <Routes>
-            <Route path="/"         element={<LiveDashboard />} />
-            <Route path="/history"  element={<HistoryDashboard />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="*"         element={<NotFound />} />
-          </Routes>
+          <Outlet />
         </AnimatedPage>
       </main>
       <ToastManager />
@@ -56,7 +58,16 @@ function AppInner() {
 export default function App() {
   return (
     <BrowserRouter>
-      <AppInner />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route element={<ProtectedLayout />}>
+          <Route path="/"         element={<LiveDashboard />} />
+          <Route path="/history"  element={<HistoryDashboard />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="*"         element={<NotFound />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }
+

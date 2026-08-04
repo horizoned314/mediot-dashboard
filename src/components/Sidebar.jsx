@@ -34,6 +34,14 @@ const navItems = [
 ];
 
 export default function Sidebar() {
+  const handleLogout = () => {
+    localStorage.removeItem('mediot_user');
+    localStorage.removeItem('mediot_token');
+    window.location.href = '/login';
+  };
+
+  const user = JSON.parse(localStorage.getItem('mediot_user') || '{"full_name":"Dr. Pengguna","role":"Spesialis Medis"}');
+
   // ── Live Clock (fix: update setiap detik) ──
   const [now, setNow] = useState(new Date());
   useEffect(() => {
@@ -102,11 +110,34 @@ export default function Sidebar() {
 
       <div className="res-hide-mobile sep mx-[18px]" />
 
+      {/* ── User Profile & Logout (Desktop Only) ── */}
+      <div className="res-hide-mobile px-[18px] py-[12px]">
+        <div className="bg-slate-900/90 border border-slate-800/90 rounded-xl p-[12px] flex items-center justify-between gap-2 shadow-inner">
+          <div className="flex items-center gap-2.5 overflow-hidden">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-600 to-blue-500 flex items-center justify-center text-white font-bold text-[13px] shrink-0 shadow">
+              {user.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
+            </div>
+            <div className="truncate">
+              <div className="text-[12px] font-semibold text-slate-200 leading-tight truncate">{user.full_name}</div>
+              <div className="text-[10px] text-slate-400/80 font-[JetBrains_Mono] truncate">{user.role}</div>
+            </div>
+          </div>
+          <button
+            onClick={handleLogout}
+            title="Keluar / Logout"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/15 transition-colors shrink-0"
+          >
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
       {/* ── Footer (Desktop Only) ── */}
-      <div className="res-hide-mobile p-[16px_18px]">
-        <div className="bg-blue-500/5 border border-blue-500/10 rounded-[10px] p-[10px_12px]">
-          <div className="text-[11px] font-semibold text-blue-400 mb-[2px]">Tim A · Frontend</div>
-          <div className="text-[10px] text-slate-400/40">GEMASTIK 2026 · IoT Medis</div>
+      <div className="res-hide-mobile p-[0px_18px_16px]">
+        <div className="bg-blue-500/5 border border-blue-500/10 rounded-[10px] p-[8px_12px] text-center">
+          <div className="text-[10px] font-semibold text-blue-400/80 font-[JetBrains_Mono] tracking-wider uppercase">Tim A · GEMASTIK 2026</div>
         </div>
       </div>
     </aside>
