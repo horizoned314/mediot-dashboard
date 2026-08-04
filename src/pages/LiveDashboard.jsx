@@ -92,20 +92,45 @@ export default function LiveDashboard() {
     <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-[24px_28px_36px] flex flex-col gap-4 relative">
       <div className="mesh-bg" />
 
-      {/* ── Top Bar ─────────────────────────────────────────── */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', position: 'relative', zIndex: 1 }}>
-        <div>
-          <h1 className="text-[20px] md:text-[22px] font-black tracking-[-0.5px] mb-1 text-slate-100">
-            Live Monitor
-          </h1>
-          <div className="flex items-center gap-2 flex-wrap">
-            <code className="text-[9px] md:text-[10px] text-cyan-400/80 bg-cyan-400/10 border border-cyan-400/20 rounded-md px-2 py-0.5 font-[JetBrains_Mono]">
-              healthcare/patient/vitals
-            </code>
-            <span className="text-[10px] text-slate-400/30">· ws:9001</span>
+      {/* ── Sticky Page Header ─────────────────────────── */}
+      <div style={{
+        position: 'sticky', top: 0, zIndex: 10,
+        marginBottom: 20,
+        background: 'rgba(4, 9, 19, 0.85)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        marginLeft: -28, marginRight: -28,
+        padding: '14px 28px',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        flexWrap: 'wrap', gap: 12,
+      }}>
+        {/* Left: title */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{
+            width: 38, height: 38, borderRadius: 11, flexShrink: 0,
+            background: 'linear-gradient(135deg, rgba(59,130,246,0.2), rgba(6,182,212,0.15))',
+            border: '1px solid rgba(59,130,246,0.25)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <div>
+            <h1 style={{ fontSize: '20px', fontWeight: 900, letterSpacing: '-0.5px', color: '#f1f5f9', lineHeight: 1, margin: 0 }}>
+              Live Monitor
+            </h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
+              <code style={{ fontSize: '10px', color: 'rgba(6,182,212,0.8)', background: 'rgba(6,182,212,0.08)', border: '1px solid rgba(6,182,212,0.18)', borderRadius: 6, padding: '1px 8px', fontFamily: 'JetBrains Mono, monospace' }}>
+                healthcare/patient/vitals
+              </code>
+              <span style={{ fontSize: '10px', color: 'rgba(148,163,184,0.25)' }}>· ws:9001</span>
+            </div>
           </div>
         </div>
-        <div className="flex items-center gap-2 flex-wrap">
+        {/* Right: controls */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
           <button
             className="btn-ghost"
             onClick={toggleDemo}
@@ -113,7 +138,7 @@ export default function LiveDashboard() {
               fontSize: '12px', padding: '6px 13px',
               borderColor: demoMode ? 'rgba(139,92,246,0.4)' : 'rgba(255,255,255,0.08)',
               color: demoMode ? '#a78bfa' : 'rgba(148,163,184,0.6)',
-              display: 'flex', alignItems: 'center', gap: '6px',
+              display: 'flex', alignItems: 'center', gap: 6,
             }}
           >
             {demoMode ? '⏹' : '▶'} {demoMode ? 'Stop Demo' : 'Demo Mode'}

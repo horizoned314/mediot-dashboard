@@ -113,15 +113,38 @@ export default function HistoryDashboard() {
     <div className="flex-1 overflow-y-auto p-4 md:p-[28px_28px_40px] flex flex-col gap-[18px] relative">
       <div className="mesh-bg" />
 
-      {/* ── Header ─────────────────────────────────────────── */}
-      <div style={{ position: 'relative', zIndex: 1 }}>
-        <h1 style={{ fontSize: '24px', fontWeight: 900, letterSpacing: '-0.5px', marginBottom: '5px', color: '#f1f5f9' }}>
-          Riwayat Vital Signs
-        </h1>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <code style={{ fontSize: '11px', color: 'rgba(139,92,246,0.8)', background: 'rgba(139,92,246,0.08)', border: '1px solid rgba(139,92,246,0.15)', borderRadius: '6px', padding: '2px 8px', fontFamily: 'JetBrains Mono, monospace' }}>
-            GET /api/v1/history/{'{id_pasien}'}
-          </code>
+      {/* ── Sticky Page Header ─────────────────────────── */}
+      <div style={{
+        position: 'sticky', top: 0, zIndex: 10,
+        marginBottom: 20,
+        background: 'rgba(4, 9, 19, 0.85)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        marginLeft: -28, marginRight: -28,
+        padding: '14px 28px',
+        display: 'flex', alignItems: 'center', gap: 12,
+        position: 'relative', zIndex: 1,
+      }}>
+        <div style={{
+          width: 38, height: 38, borderRadius: 11, flexShrink: 0,
+          background: 'linear-gradient(135deg, rgba(139,92,246,0.2), rgba(59,130,246,0.15))',
+          border: '1px solid rgba(139,92,246,0.25)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div>
+          <h1 style={{ fontSize: '20px', fontWeight: 900, letterSpacing: '-0.5px', color: '#f1f5f9', lineHeight: 1, margin: 0 }}>
+            Riwayat Vital Signs
+          </h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
+            <code style={{ fontSize: '10px', color: 'rgba(139,92,246,0.8)', background: 'rgba(139,92,246,0.08)', border: '1px solid rgba(139,92,246,0.18)', borderRadius: 6, padding: '1px 8px', fontFamily: 'JetBrains Mono, monospace' }}>
+              GET /api/v1/history/{'{id_pasien}'}
+            </code>
+          </div>
         </div>
       </div>
 
@@ -142,23 +165,31 @@ export default function HistoryDashboard() {
             />
           </div>
 
-          {/* Quick limit buttons */}
+          {/* Quick limit pill toggles */}
           <div style={{ flex: '0 0 auto' }}>
-            <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(148,163,184,0.45)', marginBottom: '7px' }}>
+            <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(148,163,184,0.45)', marginBottom: '8px' }}>
               Limit Data
             </div>
-            <div style={{ display: 'flex', gap: '6px' }}>
+            <div style={{ display: 'flex', gap: '4px', padding: '3px', background: 'rgba(0,0,0,0.3)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
               {QUICK_LIMITS.map(n => (
                 <button
                   key={n}
                   onClick={() => setLimit(n)}
                   style={{
-                    padding: '7px 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600,
-                    border: `1px solid ${limit === n ? 'rgba(59,130,246,0.5)' : 'rgba(255,255,255,0.08)'}`,
-                    background: limit === n ? 'rgba(59,130,246,0.12)' : 'rgba(255,255,255,0.03)',
-                    color: limit === n ? '#60a5fa' : 'rgba(148,163,184,0.5)',
-                    cursor: 'pointer', transition: 'all 0.15s',
+                    padding: '6px 14px',
+                    borderRadius: '7px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    border: 'none',
+                    background: limit === n
+                      ? 'linear-gradient(135deg, rgba(59,130,246,0.9), rgba(6,182,212,0.8))'
+                      : 'transparent',
+                    color: limit === n ? '#ffffff' : 'rgba(148,163,184,0.45)',
+                    cursor: 'pointer',
+                    transition: 'all 0.18s ease',
                     fontFamily: 'JetBrains Mono, monospace',
+                    boxShadow: limit === n ? '0 2px 10px rgba(59,130,246,0.35)' : 'none',
+                    letterSpacing: '0.04em',
                   }}
                 >
                   {n}
@@ -186,10 +217,31 @@ export default function HistoryDashboard() {
       {/* ── Error ──────────────────────────────────────────── */}
       {error && (
         <div className="anim-fade-up" style={{
-          padding: '14px 18px', background: 'rgba(239,68,68,0.07)',
-          border: '1px solid rgba(239,68,68,0.25)', borderRadius: '12px',
-          color: '#fca5a5', fontSize: '13px', position: 'relative', zIndex: 1,
-        }}>❌ {error}</div>
+          padding: '18px 20px',
+          background: 'rgba(239,68,68,0.06)',
+          border: '1px solid rgba(239,68,68,0.2)',
+          borderRadius: '16px',
+          position: 'relative', zIndex: 1,
+          display: 'flex', alignItems: 'flex-start', gap: '14px',
+        }}>
+          <div style={{
+            width: 36, height: 36, borderRadius: '10px', flexShrink: 0,
+            background: 'rgba(239,68,68,0.12)',
+            border: '1px solid rgba(239,68,68,0.25)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+          </div>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: '13px', color: '#f87171', marginBottom: '4px' }}>Gagal Mengambil Data</div>
+            <div style={{ fontSize: '12px', color: 'rgba(252,165,165,0.7)', lineHeight: 1.5 }}>{error}</div>
+            <div style={{ fontSize: '11px', color: 'rgba(148,163,184,0.35)', marginTop: '6px', fontFamily: 'JetBrains Mono, monospace' }}>
+              Pastikan server API online dan ID pasien valid, lalu coba lagi.
+            </div>
+          </div>
+        </div>
       )}
 
       {/* ── Results ────────────────────────────────────────── */}

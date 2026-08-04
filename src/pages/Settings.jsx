@@ -92,15 +92,40 @@ export default function Settings() {
 
       <div style={{ maxWidth: '620px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
 
-        {/* ── Header ─────────────────────────────── */}
-        <div style={{ marginBottom: '28px' }}>
-          <h1 style={{ fontSize: '24px', fontWeight: 900, color: '#f1f5f9', letterSpacing: '-0.5px', marginBottom: '6px' }}>
+
+      {/* ── Sticky Page Header ──────────────────── */}
+      <div style={{
+        position: 'sticky', top: 0, zIndex: 10,
+        marginBottom: 24,
+        background: 'rgba(4, 9, 19, 0.85)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        marginLeft: -28, marginRight: -28,
+        padding: '14px 28px',
+        display: 'flex', alignItems: 'center', gap: 12,
+      }}>
+        <div style={{
+          width: 38, height: 38, borderRadius: 11, flexShrink: 0,
+          background: 'linear-gradient(135deg, rgba(16,185,129,0.2), rgba(6,182,212,0.15))',
+          border: '1px solid rgba(16,185,129,0.25)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 style={{ fontSize: '20px', fontWeight: 900, letterSpacing: '-0.5px', color: '#f1f5f9', lineHeight: 1, margin: 0 }}>
             Pengaturan
           </h1>
-          <p style={{ fontSize: '13px', color: 'rgba(148,163,184,0.45)', lineHeight: 1.5 }}>
-            Konfigurasi koneksi MQTT broker dan REST API Tim B. Perubahan aktif setelah halaman di-refresh.
+          <p style={{ fontSize: '11px', color: 'rgba(148,163,184,0.4)', marginTop: 4, margin: 0 }}>
+            Konfigurasi MQTT broker, REST API, dan tampilan real-time
           </p>
         </div>
+      </div>
+
 
         {/* ── MQTT Section ─────────────────────── */}
         <div className="glass-card" style={{ padding: '24px', marginBottom: '16px' }}>
