@@ -22,7 +22,7 @@ export default function Login() {
     };
   }, []);
 
-  const handleManualLogin = async (e) => {
+const handleManualLogin = async (e) => {
     e.preventDefault();
     setError(null);
     if (!username.trim() || !password.trim()) {
@@ -33,12 +33,17 @@ export default function Login() {
     try {
       const controller = new AbortController();
       const tid = setTimeout(() => controller.abort(), 5000);
+      
       const res = await fetch(`${API_CONFIG.baseURL}/api/v1/auth/login`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': '69420' // <--- TAMBAHKAN BARIS INI
+        },
         body: JSON.stringify({ username, password }),
         signal: controller.signal,
       }).finally(() => clearTimeout(tid));
+      
       if (!res.ok) throw new Error('invalid');
       const data = await res.json();
       const user = data.user || { username, full_name: username, role: 'Spesialis Medis' };
