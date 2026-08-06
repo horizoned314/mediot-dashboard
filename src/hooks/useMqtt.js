@@ -49,26 +49,33 @@ export function useMqtt() {
     setSelectedId(prev => prev ?? id);
   }, []);
 
-  // ── MQTT real connect ─────────────────────────────────────────
+// ── MQTT real connect ─────────────────────────────────────────
   const connect = useCallback(async () => {
     if (clientRef.current) {
       try { clientRef.current.end(true); } catch (_) {}
       clientRef.current = null;
     }
     
-    const host  = localStorage.getItem('mqtt_host')  || 'localhost';
-    const port  = localStorage.getItem('mqtt_port')  || '9001';
+    const host  = localStorage.getItem('mqtt_host')  || 'electrocratic-debatable-joannie.ngrok-free.dev';
+    const port  = localStorage.getItem('mqtt_port')  || '443'; // Wajib port Ngrok HTTPS
     const topic = localStorage.getItem('mqtt_topic') || 'healthcare/patient/vitals';
     
-    // PERBAIKAN: Bersihkan prefix ws:// atau wss:// jika user mengetiknya di Halaman Pengaturan
+    // PERBAIKAN KRITIS: Selalu bersihkan protocol jika ada, lalu PAKSA gunakan WSS
     const cleanHost = host.replace(/^wss?:\/\//, '');
-    const url   = `ws://${cleanHost}:${port}/mqtt`;
+    
+    // UBAH DISINI: Wajib pakai wss:// (Secure)
+    const url   = `wss://${cleanHost}:${port}/mqtt`; 
     
     const cid   = `mediot-${Math.random().toString(16).slice(2, 8)}`;
     setStatus('connecting');
 
     const { default: mqtt } = await import('mqtt');
-    const client = mqtt.connect(url, { clientId: cid, clean: true, reconnectPeriod: 5000, connectTimeout: 10000 });
+    const client = mqtt.connect(url, { 
+      clientId: cid, 
+      clean: true, 
+      reconnectPeriod: 5000, 
+      connectTimeout: 10000 
+    });
     
     client.on('connect', () => { 
       setStatus('connected'); 

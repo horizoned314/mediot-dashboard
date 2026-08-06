@@ -1,10 +1,10 @@
-// src/config.js (Sinkron dengan Settings.jsx Anda)
+// src/config.js
 export const MQTT_CONFIG = {
   get host() {
-    return localStorage.getItem('mqtt_host') || 'mqtt-iot-healthcare.playgrounds.web.id';
+    return localStorage.getItem('mqtt_host') || 'electrocratic-debatable-joannie.ngrok-free.dev'; // HANYA DOMAIN, TANPA wss:// DAN /mqtt
   },
   get port() {
-    return localStorage.getItem('mqtt_port') || 9001;
+    return localStorage.getItem('mqtt_port') || 443; // GUNAKAN 443 (Port WSS standar), BUKAN 9001
   },
   get topic() {
     return localStorage.getItem('mqtt_topic') || 'healthcare/patient/vitals';
